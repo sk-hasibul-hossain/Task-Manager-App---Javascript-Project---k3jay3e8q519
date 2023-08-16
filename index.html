@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="task-outer-container">
+        <div class="inner-container">
+            <div class="task-container-box">
+                <h1 class="task-box-heading open--heading--style">OPEN<span title="Create Task" id="create-task-btn"><i class="fa-solid fa-plus"></i></span></h1>
+                <div class="task-container-body" id="task-body">
+                    <!-- <div class="task" id="open-task" draggable="true" ondragstart="drag(event)">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Finish reading intro to UI/Ux</p>
+                        <div class="progress"></div>
+                    </div> -->
+                    <!-- <div class="task">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Fill out human interest distribution form</p>
+                        <div class="progress"></div>
+                    </div>
+                    <div class="task">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Call the bank to talk about investments</p>
+                        <div class="progress"></div>
+                    </div>
+                    <div class="task">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Finish reading intro to UI/Ux</p>
+                        <div class="progress"></div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="task-container-box">
+                <h1 class="task-box-heading">IN PROCESS</h1>
+                <div class="task-container-body process-drag-drop-body-height" id="task-inprocess" ondragover="allowDrop(event)" ondrop="drop(event)">
 
+                </div>
+            </div>
+            <div class="task-container-box">
+                <h1 class="task-box-heading">IN REVIEW</h1>
+                <div class="task-container-body review-drag-drop-body-height" id="task-in-review" ondragover="allowDrop(event)" ondrop="drop(event)">
+
+                </div>
+            </div>
+            <div class="task-container-box">
+                <h1 class="task-box-heading">DONE</h1>
+                <div class="task-container-body done-drag-drop-body-height" id="task-in-done" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" title="Close" id="close-model-btn"></i>
+            <h2>Create Task</h2>
+            <input type="text" id="modal-task-input" placeholder="Type here..." />
+            <p id="task-input-error">Please enter valid task</p>
+            <button class="modal-add-btn" id="modal-task-btn">Add</button>
+        </div>
+    </div>
+</body>
+</html>
