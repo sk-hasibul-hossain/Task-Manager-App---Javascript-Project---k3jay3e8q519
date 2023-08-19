@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
-    <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./task-title-photo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="./script.js" defer></script>
 </head>
 <body>
     <div class="task-outer-container">
+        <div class="project-name-div">
+            <h1 class="project-name-heading">Task Manager App</h1>
+        </div>
         <div class="inner-container">
             <div class="task-container-box">
                 <h1 class="task-box-heading open--heading--style">OPEN<span title="Create Task" id="create-task-btn"><i class="fa-solid fa-plus"></i></span>
                 <div class="task-container-body" id="task-body">
                     <!-- <div class="task" id="open-task" draggable="true" ondragstart="drag(event)">
                         <div class="task-progress"></div>
-                        <p class="task-description">Finish reading intro to UI/Ux</p>
+                        <p class="task-description">OPEN: Finish reading intro to UI/Ux</p>
                         <div class="progress"></div>
                     </div> -->
                     <!-- <div class="task">
@@ -63,6 +66,10 @@
                     </div> -->
                 </div>
             </div>
+        </div>
+        <div class="delete-conatiner" id="delete-box" ondragover="allowDrop(event)" ondrop="deleteDrop(event)">
+            <p class="delete-title">Drag/Drop Delete</p>
+            <i class="fa-solid fa-trash delete-icon"></i>
         </div>
     </div>
     <!-- Modal -->

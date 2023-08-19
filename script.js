@@ -259,8 +259,80 @@ updateModalInput.addEventListener("focusin", (e) => {
 });
 
 updateCloseModalBtn.addEventListener("click", (e) => {
+  updateValidInput.style.visibility = "hidden";
   updateModal.style.display = "none";
   updateModalInput.value = "";
   updateTaskSaved.style.visibility = "hidden";
   // validInput.style.visibility = "hidden";
 });
+
+/* Re arrange drag and drop*/
+const taskContainers = document.querySelectorAll(".task-container-body");
+
+const handleRearrangeDropWithinColumn = (ev) => {
+  ev.preventDefault();
+  const sourceId = ev.dataTransfer.getData("text");
+  const sourceElement = document.querySelector(`#${sourceId}`);
+  const targetElement = ev.target.closest(".task");
+  const parentContainer = sourceElement.parentNode;
+
+  // Determine the new index for the source element
+  const sourceIndex = Array.from(parentContainer.children).indexOf(
+    sourceElement
+  );
+  const targetIndex = Array.from(parentContainer.children).indexOf(
+    targetElement
+  );
+
+  // Reorder the tasks within the parent container
+  if (sourceIndex > targetIndex) {
+    parentContainer.insertBefore(sourceElement, targetElement);
+  } else {
+    parentContainer.insertBefore(
+      sourceElement,
+      targetElement.nextElementSibling
+    );
+  }
+};
+
+// Attach dragover and drop event listeners for rearranging tasks within columns
+taskContainers.forEach((container) => {
+  container.addEventListener("dragover", allowDrop);
+  container.addEventListener("drop", handleRearrangeDropWithinColumn);
+});
+
+/* Delete drop */
+
+function deleteDrop(ev) {
+  ev.preventDefault();
+  const dataIdName = ev.dataTransfer.getData("text");
+  const taskValidateArr = taskTable.get(dataIdName);
+  if (
+    (taskValidateArr[0] === 0 &&
+      taskValidateArr[1] === 0 &&
+      taskValidateArr[2] === 0) ||
+    (taskValidateArr[0] === 1 &&
+      taskValidateArr[1] === 0 &&
+      taskValidateArr[2] === 0) ||
+    (taskValidateArr[0] === 1 &&
+      taskValidateArr[1] === 1 &&
+      taskValidateArr[2] === 0)
+  ) {
+    if (confirm("Do you really want to delete your profile?")) {
+      document.querySelector(`#${dataIdName}`).remove();
+    }
+  }
+  // console.log(dataIdName);
+}
+
+const deleteTitle = document.querySelector(".delete-title");
+document
+  .querySelector(".delete-conatiner")
+  .addEventListener("mouseover", () => {
+    deleteTitle.style.visibility = "visible";
+  });
+document
+  .querySelector(".delete-conatiner")
+  .addEventListener("pointerleave", () => {
+    deleteTitle.style.visibility = "hidden";
+  });

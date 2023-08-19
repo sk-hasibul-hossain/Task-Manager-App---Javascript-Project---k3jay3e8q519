@@ -110,7 +110,10 @@ body{
     margin: 24px 8px 8px 8px;
     font-weight: 550;
     font-size: 14px;
+    word-wrap:break-word;
 }
+
+
 /* Styles for the modal */
 .modal {
     display: none;
@@ -329,6 +332,47 @@ input[type='text']:focus{
     top: 85px;
     color: rgb(0, 128, 0);
 }
+.delete-conatiner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100px;
+    width: 30%;
+    bottom: 0;
+}
+.delete-icon{
+    content: "Delete";
+    color: #e00909;
+    font-size: 40px;
+}
+.delete-title{
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    font-weight: 800;
+    color: red;
+}
+.project-name-div{
+    position: absolute;
+    top: 15px;
+}
+.project-name-heading{
+    color: rgb(28, 145, 241);
+  text-shadow:
+    -1px -1px 0 #333,
+    -2px -2px 0 #666,
+    -3px -3px 0 #999,
+    -4px -4px 0 #ccc,
+    -5px -5px 0 #fff,
+    1px 1px 0 #333,
+    2px 2px 0 #666,
+    3px 3px 0 #999,
+    4px 4px 0 #ccc,
+    5px 5px 0 #fff;
+}
+
+
 @media screen and (max-width: 1200px) {
     .inner-container{
         display:grid;
