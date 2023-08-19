@@ -6,54 +6,76 @@ const taskBody = document.querySelector("#task-body");
 const addBtn = document.querySelector("#modal-task-btn");
 const validInput = document.querySelector("#task-input-error");
 
-closeModalBtn.addEventListener("click", (e) => {
+/* global state for distinct identify to add decription */
+let descriptioState = "";
+
+const modalHide = () => {
   modal.style.display = "none";
   validInput.style.visibility = "hidden";
+  taskSaved.style.visibility = "hidden";
+};
+closeModalBtn.addEventListener("click", (e) => {
+  modalHide();
 });
 
-createTaskBtn.addEventListener("click", (e) => {
+const modalVisible = () => {
   modal.style.display = "block";
-  console.log(e.target);
+  descriptioState = "open";
+};
+
+createTaskBtn.addEventListener("click", (e) => {
+  modalVisible();
 });
 
 const taskTable = new Map();
+const taskStr = document.querySelector("#modal-task-input");
 let count = 0;
 addBtn.addEventListener("click", () => {
   //Tasks are shown
-  const taskStr = document.querySelector("#modal-task-input");
-  const withoutSpaceStr = taskStr.value.split(" ").join("");
-  if (withoutSpaceStr.length > 0) {
-    count++;
-    const taskProgress = document.createElement("div");
-    taskProgress.setAttribute("class", "task-progress");
-    taskProgress.setAttribute("id", `task-progress-${count}`);
 
-    const taskDescription = document.createElement("p");
-    taskDescription.setAttribute("class", "task-description");
-    taskDescription.textContent = taskStr.value;
+  if (descriptioState === "open") {
+    const withoutSpaceStr = taskStr.value.split(" ").join("");
+    if (withoutSpaceStr.length > 0) {
+      count++;
+      const taskProgress = document.createElement("div");
+      taskProgress.setAttribute("class", "task-progress");
+      taskProgress.setAttribute("id", `task-progress-${count}`);
 
-    const progress = document.createElement("div");
-    progress.setAttribute("class", "progress");
+      const taskDescription = document.createElement("p");
+      taskDescription.setAttribute("class", "task-description");
+      taskDescription.textContent = `OPEN: ${taskStr.value}`;
 
-    const taskDiv = document.createElement("div");
-    taskDiv.setAttribute("class", "task");
-    taskDiv.setAttribute("id", `open-task-${count}`);
-    taskDiv.setAttribute("draggable", "true");
-    taskDiv.setAttribute("ondragstart", "drag(event)");
+      const progress = document.createElement("div");
+      progress.setAttribute("class", "progress");
+      progress.setAttribute("id", "add-new-description");
+      progress.setAttribute("onclick", "addSomethingFunction(event)");
 
-    taskDiv.appendChild(taskProgress);
-    taskDiv.appendChild(taskDescription);
-    taskDiv.appendChild(progress);
+      const taskDiv = document.createElement("div");
+      taskDiv.setAttribute("class", "task");
+      taskDiv.setAttribute("id", `open-task-${count}`);
+      taskDiv.setAttribute("draggable", "true");
+      taskDiv.setAttribute("ondragstart", "drag(event)");
+      // taskDiv.setAttribute("onclick", "addSomethingFunction(id)");
 
-    taskBody.prepend(taskDiv);
+      taskDiv.appendChild(taskProgress);
+      taskDiv.appendChild(taskDescription);
+      taskDiv.appendChild(progress);
 
-    validInput.style.visibility = "hidden";
+      taskBody.prepend(taskDiv);
 
-    taskTable.set(`open-task-${count}`, [0, 0, 0]);
-  } else {
-    validInput.style.visibility = "visible";
+      validInput.style.visibility = "hidden";
+      taskSaved.style.visibility = "visible";
+
+      taskTable.set(`open-task-${count}`, [0, 0, 0]);
+    } else {
+      validInput.style.visibility = "visible";
+    }
   }
   taskStr.value = "";
+});
+const taskSaved = document.querySelector(".task-input-saved");
+taskStr.addEventListener("focusin", (e) => {
+  taskSaved.style.visibility = "hidden";
 });
 
 //Drag drop code
@@ -66,6 +88,8 @@ const reviewDragDropBodyHeight = document.querySelector(
 const doneDragDropBodyHeight = document.querySelector(
   ".done-drag-drop-body-height"
 );
+
+let selectProcess = "";
 function allowDrop(ev) {
   ev.preventDefault();
 }
@@ -86,10 +110,12 @@ function drop(ev) {
     ev.target.id === "task-inprocess"
   ) {
     /*Data Manipulation*/
-    console.log();
-    document.querySelector(
-      `#${dataIdName} > .task-progress`
-    ).style.width = `${50}%`;
+    dataSelector.firstChild.style.width = `${50}%`;
+
+    dataSelector.firstChild.classList.add("task-progress-color-blue");
+    dataSelector.lastChild.classList.add("progress-color-blue");
+
+    // selectProcess = document.querySelector(`#${dataIdName} > .progress`);
     /*Data Manipulation end*/
     ev.target.appendChild(dataSelector);
 
@@ -105,12 +131,20 @@ function drop(ev) {
     ev.target.id === "task-in-review"
   ) {
     /*Data Manipulation*/
-    document.querySelector(
-      `#${dataIdName} > .task-progress`
-    ).style.width = `${75}%`;
-    document.querySelector(
-      `#${dataIdName} > .task-progress`
-    ).style.backgroundColor = `#e009a0`;
+    dataSelector.firstChild.style.width = `${75}%`;
+    dataSelector.firstChild.style.backgroundColor = `#e009a0`;
+    dataSelector.removeChild(dataSelector.lastChild);
+
+    const imgTag = document.createElement("img");
+    imgTag.setAttribute("src", "./Notepad_icon.svg.png");
+    imgTag.setAttribute("class", "edit-icon");
+    imgTag.setAttribute("title", "Edit");
+    imgTag.setAttribute("alt", "not loaded");
+    imgTag.setAttribute("onclick", "addSomethingFunction(event)");
+    dataSelector.appendChild(imgTag);
+
+    // dataSelector.lastChild.classList.remove("progress-color-blue");
+    // dataSelector.lastChild.classList.add("progress-color-purple");
     /*Data Manipulation end*/
     ev.target.appendChild(dataSelector);
 
@@ -125,9 +159,24 @@ function drop(ev) {
     taskValidateArr[2] === 0 &&
     ev.target.id === "task-in-done"
   ) {
-    document.querySelector(
-      `#${dataIdName} > .task-progress`
-    ).style.width = `${100}%`;
+    dataSelector.firstChild.style.width = `${95}%`;
+    dataSelector.firstChild.style.backgroundColor = "rgb(5, 114, 5)";
+
+    dataSelector.removeChild(dataSelector.lastChild);
+
+    const li = document.createElement("i");
+    li.setAttribute(
+      "class",
+      "fa-solid fa-check progress-checked progress-checked"
+    );
+
+    const progressDiv = document.createElement("div");
+    progressDiv.setAttribute("class", "progress progress-color-green");
+    // progressDiv.setAttribute("onclick", "addSomethingFunction(event)");
+    // progressDiv.setAttribute("id", "add-new-description");
+
+    progressDiv.appendChild(li);
+    dataSelector.appendChild(progressDiv);
 
     ev.target.appendChild(dataSelector);
 
@@ -138,3 +187,80 @@ function drop(ev) {
     taskTable.set(dataIdName, [1, 1, 1]);
   }
 }
+
+// function addSomethingFunction(targetIdName) {
+//   const targetId = document.querySelector(`#${targetIdName}`);
+//   if (
+//     targetId.parentNode.parentNode.innerText.split(" ")[0].split("\n")[0] !==
+//     "OPEN"
+//   ) {
+//     console.log("hi");
+//     document.querySelector(`#${targetIdName}`).childNodes[2] = "abc";
+//   }
+// }
+
+const updateCreateTaskBtn = document.querySelector("#update-create-task-btn");
+const updateModal = document.querySelector("#update-task-modal");
+const updateCloseModalBtn = document.querySelector("#update-close-model-btn");
+const updateAddBtn = document.querySelector("#update-modal-task-btn");
+const updateValidInput = document.querySelector("#update-task-input-error");
+
+// updateCreateTaskBtn.addEventListener("click", (e) => {
+//   modal.style.display = "block";
+// });
+
+let updateState = "";
+const updateTaskFieldBtn = document.querySelector("#modal-task-btn");
+const taskHeading = document.querySelector("#task-title");
+function addSomethingFunction(event) {
+  updateState = event.target.parentNode;
+  // console.log(event.target.parentNode.parentNode.parentNode);
+  const modelHeading = updateState.parentNode.parentNode.innerText.split(" ");
+  if (modelHeading[0].split("\n")[0] !== "OPEN") {
+    updateModal.style.display = "block";
+    taskHeading.innerText = `${modelHeading[0]} ${
+      modelHeading[1].split("\n")[0]
+    }`;
+  }
+}
+// const TaskState = updateState.target.parentNode.parentNode.parentNode.innerText
+//   .split(" ")[0]
+//   .split("\n")[0];
+
+// if (TaskState != "OPEN") {
+
+// }
+const updateTaskSaved = document.querySelector(".update-task-input-saved");
+const updateModalInput = document.querySelector("#update-modal-task-input");
+updateAddBtn.addEventListener("click", () => {
+  // console.log(updateState.firstChild.nextSibling);
+
+  const withoutSpaceStr = updateModalInput.value.split(" ").join("");
+  if (withoutSpaceStr.length > 0) {
+    const targetElement = updateState.firstChild.nextSibling;
+    const newP = document.createElement("p");
+    const modelHeading = updateState.parentNode.parentNode.innerText.split(" ");
+    // console.log(`${modelHeading[0]} ${modelHeading[1].split("\n")[0]}`);
+    newP.textContent = `${modelHeading[0]} ${modelHeading[1].split("\n")[0]}: ${
+      updateModalInput.value
+    }`;
+    targetElement.append(newP);
+    // console.log(targetElement.parentNode.firstChild.nextSibling);
+    updateValidInput.style.visibility = "hidden";
+    updateTaskSaved.style.visibility = "visible";
+  } else {
+    updateValidInput.style.visibility = "visible";
+  }
+  updateModalInput.value = "";
+});
+
+updateModalInput.addEventListener("focusin", (e) => {
+  updateTaskSaved.style.visibility = "hidden";
+});
+
+updateCloseModalBtn.addEventListener("click", (e) => {
+  updateModal.style.display = "none";
+  updateModalInput.value = "";
+  updateTaskSaved.style.visibility = "hidden";
+  // validInput.style.visibility = "hidden";
+});

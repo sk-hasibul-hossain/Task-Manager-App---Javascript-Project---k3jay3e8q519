@@ -12,7 +12,7 @@
     <div class="task-outer-container">
         <div class="inner-container">
             <div class="task-container-box">
-                <h1 class="task-box-heading open--heading--style">OPEN<span title="Create Task" id="create-task-btn"><i class="fa-solid fa-plus"></i></span></h1>
+                <h1 class="task-box-heading open--heading--style">OPEN<span title="Create Task" id="create-task-btn"><i class="fa-solid fa-plus"></i></span>
                 <div class="task-container-body" id="task-body">
                     <!-- <div class="task" id="open-task" draggable="true" ondragstart="drag(event)">
                         <div class="task-progress"></div>
@@ -45,12 +45,22 @@
             <div class="task-container-box">
                 <h1 class="task-box-heading">IN REVIEW</h1>
                 <div class="task-container-body review-drag-drop-body-height" id="task-in-review" ondragover="allowDrop(event)" ondrop="drop(event)">
-
+                    <!-- <div class="task">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Finish reading intro to UI/Ux</p>
+                        <img src="Notepad_icon.svg.png" class="edit-icon" id="task-edit" title="Edit" alt="not loaded" />
+                    </div> -->
                 </div>
             </div>
             <div class="task-container-box">
                 <h1 class="task-box-heading">DONE</h1>
-                <div class="task-container-body done-drag-drop-body-height" id="task-in-done" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                <div class="task-container-body done-drag-drop-body-height" id="task-in-done" ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <!-- <div class="task">
+                        <div class="task-progress"></div>
+                        <p class="task-description">Call the bank to talk about investments</p>
+                        <div class="progress"><i class="fa-solid fa-check progress-checked"></i></div>
+                    </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -61,7 +71,19 @@
             <h2>Create Task</h2>
             <input type="text" id="modal-task-input" placeholder="Type here..." />
             <p id="task-input-error">Please enter valid task</p>
+            <p class="task-input-saved">Saved task...</p>
             <button class="modal-add-btn" id="modal-task-btn">Add</button>
+        </div>
+    </div>
+    <!-- another modal -->
+    <div class="update-modal" id="update-task-modal">
+        <div class="update-modal-content">
+            <i class="fa-solid fa-xmark update-close-btn" title="Close" id="update-close-model-btn"></i>
+            <h2 id="task-title">Create Task</h2>
+            <input type="text" id="update-modal-task-input" placeholder="Type here..." />
+            <p id="update-task-input-error">Please enter valid input</p>
+            <p class="update-task-input-saved">Saved input...</p>
+            <button class="update-modal-add-btn" id="update-modal-task-btn">Add</button>
         </div>
     </div>
 </body>
