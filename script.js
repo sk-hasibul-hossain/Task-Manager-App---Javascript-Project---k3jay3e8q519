@@ -318,7 +318,7 @@ function deleteDrop(ev) {
       taskValidateArr[1] === 1 &&
       taskValidateArr[2] === 0)
   ) {
-    if (confirm("Do you really want to delete your profile?")) {
+    if (confirm("Do you really want to delete your task?")) {
       document.querySelector(`#${dataIdName}`).remove();
     }
   }
