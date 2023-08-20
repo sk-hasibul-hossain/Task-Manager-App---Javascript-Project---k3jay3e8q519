@@ -359,6 +359,7 @@ input[type='text']:focus{
 }
 .project-name-heading{
     color: rgb(28, 145, 241);
+    font-size: 45px;
   text-shadow:
     -1px -1px 0 #333,
     -2px -2px 0 #666,
