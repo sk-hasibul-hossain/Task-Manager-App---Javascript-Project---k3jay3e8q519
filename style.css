@@ -303,6 +303,10 @@ input[type='text']:focus{
     border-bottom: 4px solid rgb(5, 114, 5);
     border-left: 4px solid rgb(5, 114, 5);
 }
+.progress-color-green:hover{
+    width: 18px;
+    height: 18px;
+}
 .edit-icon{
     position:absolute;
     right: 8px;
@@ -318,6 +322,7 @@ input[type='text']:focus{
 .progress-checked{
     transform: rotate(45deg);
     color: green;
+    pointer-events: none;
     /* cursor: pointer; */
 }
 .task-input-saved{
@@ -345,6 +350,43 @@ input[type='text']:focus{
     content: "Delete";
     color: #e00909;
     font-size: 40px;
+}
+.delete-icon:hover{
+    animation-name: trash;
+    animation-duration: 1200ms;
+}
+@keyframes trash{
+    0%{
+        transform: rotate(30deg);
+    }
+    25%{
+        transform: rotate(-24deg);
+    }
+    50%{
+        transform: rotate(24deg);
+    }
+    40%{
+        transform: rotate(-18deg);
+    }
+    50%{
+        transform: rotate(18deg);
+    }
+    60%{
+        transform: rotate(-12deg);
+    }
+    70%{
+        transform: rotate(12deg);
+    }
+    80%{
+        transform: rotate(-6deg);
+    }
+    90%{
+        transform: rotate(6deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+
 }
 .delete-title{
     visibility: hidden;

@@ -68,6 +68,7 @@ addBtn.addEventListener("click", () => {
 
       taskTable.set(`open-task-${count}`, [0, 0, 0]);
     } else {
+      taskSaved.style.visibility = "hidden";
       validInput.style.visibility = "visible";
     }
   }
@@ -172,7 +173,7 @@ function drop(ev) {
 
     const progressDiv = document.createElement("div");
     progressDiv.setAttribute("class", "progress progress-color-green");
-    // progressDiv.setAttribute("onclick", "addSomethingFunction(event)");
+    progressDiv.setAttribute("onclick", "addSomethingFunction(event)");
     // progressDiv.setAttribute("id", "add-new-description");
 
     progressDiv.appendChild(li);
@@ -216,11 +217,18 @@ function addSomethingFunction(event) {
   updateState = event.target.parentNode;
   // console.log(event.target.parentNode.parentNode.parentNode);
   const modelHeading = updateState.parentNode.parentNode.innerText.split(" ");
-  if (modelHeading[0].split("\n")[0] !== "OPEN") {
+  // console.log(modelHeading[0].split("\n")[0] === "DONE");
+  if (
+    modelHeading[0].split("\n")[0] !== "OPEN" &&
+    modelHeading[0].split("\n")[0] !== "DONE"
+  ) {
     updateModal.style.display = "block";
     taskHeading.innerText = `${modelHeading[0]} ${
       modelHeading[1].split("\n")[0]
     }`;
+  } else if (modelHeading[0].split("\n")[0] === "DONE") {
+    updateModal.style.display = "block";
+    taskHeading.innerText = `${modelHeading[0].split("\n")[0]}`;
   }
 }
 // const TaskState = updateState.target.parentNode.parentNode.parentNode.innerText
@@ -241,14 +249,21 @@ updateAddBtn.addEventListener("click", () => {
     const newP = document.createElement("p");
     const modelHeading = updateState.parentNode.parentNode.innerText.split(" ");
     // console.log(`${modelHeading[0]} ${modelHeading[1].split("\n")[0]}`);
-    newP.textContent = `${modelHeading[0]} ${modelHeading[1].split("\n")[0]}: ${
-      updateModalInput.value
-    }`;
+    if (modelHeading[0].split("\n")[0] !== "DONE") {
+      newP.textContent = `${modelHeading[0]} ${
+        modelHeading[1].split("\n")[0]
+      }: ${updateModalInput.value}`;
+    } else {
+      newP.textContent = `${modelHeading[0].split("\n")[0]}: ${
+        updateModalInput.value
+      }`;
+    }
     targetElement.append(newP);
     // console.log(targetElement.parentNode.firstChild.nextSibling);
     updateValidInput.style.visibility = "hidden";
     updateTaskSaved.style.visibility = "visible";
   } else {
+    updateTaskSaved.style.visibility = "hidden";
     updateValidInput.style.visibility = "visible";
   }
   updateModalInput.value = "";
@@ -307,6 +322,14 @@ function deleteDrop(ev) {
   ev.preventDefault();
   const dataIdName = ev.dataTransfer.getData("text");
   const taskValidateArr = taskTable.get(dataIdName);
+  // console.log(document.querySelector(`#${dataIdName}`).innerText.split("\n"));
+  if (
+    taskValidateArr[0] === 1 &&
+    taskValidateArr[1] === 1 &&
+    taskValidateArr[2] === 1
+  ) {
+    alert("You can't delete complted task");
+  }
   if (
     (taskValidateArr[0] === 0 &&
       taskValidateArr[1] === 0 &&
